@@ -52,6 +52,11 @@ class RestaurantPizza(db.Model, SerializerMixin):
     restaurant = db.relationship('Restaurant', back_populates='restaurant_pizzas')
     pizza = db.relationship('Pizza', back_populates='restaurant_pizzas')
 
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if not (1 <= self.price <= 30):
+            raise ValueError("Price must be between 1 and 30.")
+
     def to_dict(self):
         return {
             "id": self.id,
